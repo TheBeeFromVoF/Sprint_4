@@ -9,14 +9,12 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.*;
-
+import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
 public class OrderTest {
-    private DriverFactory driverFactory = new DriverFactory();
+
     private WebDriver webDriver;
-
-
     private String buttonChoose;
     private String name;
     private String lastName;
@@ -24,6 +22,7 @@ public class OrderTest {
     private String subwayStation;
     private String phoneNumber;
     private String deliveryDate;
+    private String orderIsProcessed;
 
     public OrderTest(String buttonChoose, String name, String lastName, String address, String subwayStation, String phoneNumber, String deliveryDate) {
         this.buttonChoose = buttonChoose;
@@ -48,31 +47,20 @@ public class OrderTest {
         webDriver = DriverFactory.getWebDriver(System.getProperty("browser", "chrome"));
         webDriver.get(Env.BASE_URL);
     }
-
     @Test
     public void createOrder(){
 
-
-
         MainPage mainPage = new MainPage(webDriver);
         mainPage.closeCookiesWindow();
-
-
-        if (buttonChoose == "Up") {
-            mainPage.createUpOrder();
-        } else mainPage.createDownOrder();
-
-
+        mainPage.createOrder(buttonChoose);
         OrderPage orderPage = new OrderPage(webDriver);
         orderPage.customerData(name, lastName, address, subwayStation, phoneNumber);
         orderPage.clickNextButton();
-
         orderPage.aboutRent (deliveryDate);
-
-
+        boolean orderIsDisplayed = orderPage.orderProcessed(orderIsProcessed);
+        assertTrue(orderIsDisplayed);
 
     }
-
 
     @After
     public void closeBrowser(){

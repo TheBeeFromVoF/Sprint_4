@@ -9,13 +9,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
-
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
 public class FAQTest {
 
-    private DriverFactory driverFactory = new DriverFactory();
+
     private WebDriver webDriver;
     private int index;
     private String answer;
@@ -43,7 +42,7 @@ public class FAQTest {
 
     @Before
     public void setup(){
-        webDriver = DriverFactory.getWebDriver(System.getProperty("browser", "chrome"));
+        webDriver = DriverFactory.getWebDriver(System.getProperty("browser", "firefox"));
         webDriver.get(Env.BASE_URL);
     }
     @Test

@@ -7,7 +7,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 
 public class MainPage {
@@ -26,11 +25,9 @@ public class MainPage {
     //Локатор выбора в аккордионе
     private final String answerLocator = "//div[contains(@id, 'accordion__panel')][.='%s']";
 
-
     public MainPage (WebDriver webDriver){
         this.webDriver = webDriver;
     }
-
 
     public void createUpOrder(){
         WebElement orderButtonUp = webDriver
@@ -43,29 +40,25 @@ public class MainPage {
                 .findElement( createDownOrderLocator);
         new WebDriverWait(webDriver, Duration.ofSeconds(Env.DEFAULT_TIMEOUT))
                 .until(ExpectedConditions.elementToBeClickable(createDownOrderLocator));
-
         ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", orderButtonDown);
-
         orderButtonDown.click();
+    }
+
+    public void createOrder(String button){
+        if (button.equals("Up") ) {
+            createUpOrder();
+        } else createDownOrder();
     }
 
     public void closeCookiesWindow(){
         webDriver.findElement(cookiesButtonLocator).click();
-
     }
-
 
     public void expandQuestion(int index) {
         WebElement element= webDriver.findElement(By.id(String.format(questionLocator, index)));
-
-
         ((JavascriptExecutor) webDriver).executeScript("arguments[0].scrollIntoView();", element);
-
         new WebDriverWait(webDriver, Duration.ofSeconds(Env.DEFAULT_TIMEOUT))
                 .until(ExpectedConditions.elementToBeClickable(element));
-
-
-
         element.click();
 
     }
